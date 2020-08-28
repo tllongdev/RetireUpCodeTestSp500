@@ -15,7 +15,6 @@ export default function Home() {
 	const [query, setQuery] = useState('');
 	const { data } = useQuery(['q', query], getSp500Returns);
 
-	// range slider state
 	const minRange = data && data[data.length - 1].year;
 	const maxRange = data && data[0].year;
 	const defaultRange = [1926, 2019];
@@ -57,7 +56,6 @@ export default function Home() {
 											<Range
 												allowCross={false}
 												pushable={1}
-												// dotStyle={'color: #343a40'}
 												min={minRange}
 												max={maxRange}
 												value={range}
@@ -118,28 +116,11 @@ export default function Home() {
 									index at that time was the Composite Index or S&P 90. In 1957 the index expanded to include the 500
 									components we now have today. The returns include both price returns and re-invested dividends.
 								</p>
-								{/* <p>NOTE: The YTD total return for 2020 is as of the market close on 2020-08-27.</p> */}
-								{/* <h5 className='text-center'>Downloads</h5>
-								<p>
-									Download the S&P 500 historical returns in 
-									<a href='/sp500/returns/history.csv'>CSV</a> or
-									<a href='/sp500/returns/history.json'>JSON</a> format.
-								</p> */}
 							</div>
 						</Col>
 					</Row>
 				</Container>
 			</main>
-
-			{/* <footer className={styles.footer}>
-				<a
-					href='https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app'
-					target='_blank'
-					rel='noopener noreferrer'
-				>
-					Powered by <img src='/vercel.svg' alt='Vercel Logo' className={styles.logo} />
-				</a>
-			</footer> */}
 		</div>
 	);
 }
