@@ -30,7 +30,7 @@ export default function Home() {
 
 			<main>
 				<NavBar />
-				<Container className='mt-4' style={{ height: 'auto !important', overflow: 'scroll' }}>
+				<Container className='mt-4' style={{ height: 'auto !important' }}>
 					<Row>
 						<Col>
 							<div className='mb-4'>
@@ -57,7 +57,7 @@ export default function Home() {
 											<Range
 												allowCross={false}
 												pushable={1}
-												dotStyle={'#343a40'}
+												// dotStyle={'color: #343a40'}
 												min={minRange}
 												max={maxRange}
 												value={range}
