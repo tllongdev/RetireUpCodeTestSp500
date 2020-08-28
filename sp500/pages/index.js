@@ -4,6 +4,7 @@ import { Container, Row, Col, Table } from 'react-bootstrap';
 import NavBar from '../components/NavBar';
 import axios from 'axios';
 import { useQuery } from 'react-query';
+import { Range } from 'rc-slider';
 
 const getSp500Returns = async (key, q) => {
 	const { data } = await axios.get(`api/sp500/returns`);
@@ -14,6 +15,12 @@ export default function Home() {
 	const [query, setQuery] = useState('');
 	const { data } = useQuery(['q', query], getSp500Returns);
 
+	// range slider state
+	const minRange = data && data[data.length - 1].year;
+	const maxRange = data && data[0].year;
+	const defaultRange = [1926, 2019];
+	const [range, setRange] = useState(defaultRange);
+
 	return (
 		<div>
 			<Head>
@@ -23,7 +30,7 @@ export default function Home() {
 
 			<main>
 				<NavBar />
-				<Container className='mt-4'>
+				<Container className='mt-4' style={{ height: 'auto !important', overflow: 'scroll' }}>
 					<Row>
 						<Col>
 							<div className='mb-4'>
@@ -41,6 +48,27 @@ export default function Home() {
 						<Col>
 							<div className='mb-4'>
 								<h5 className='text-center'>S&P Total Returns by Year</h5>
+								<Row>
+									<Col>
+										<h6 className='text-center'>Start Year {range[0]}</h6>
+									</Col>
+									<Col md={8} xs={12}>
+										<div className='pt-4 pb-4'>
+											<Range
+												allowCross={false}
+												pushable={1}
+												dotStyle={'#343a40'}
+												min={minRange}
+												max={maxRange}
+												value={range}
+												onChange={e => (console.log(range), setRange(e))}
+											/>
+										</div>
+									</Col>
+									<Col>
+										<h6 className='text-center'>End Year {range[1]}</h6>
+									</Col>
+								</Row>
 								<div>
 									<Table hover>
 										<thead>
@@ -55,13 +83,28 @@ export default function Home() {
 												data
 													.slice(0)
 													.reverse()
-													.map(({ year, totalReturn }, key) => (
-														<tr key={key}>
-															<td>{year}</td>
-															<td>{totalReturn}</td>
-															<td>{totalReturn}</td>
-														</tr>
-													))}
+													.map(
+														({ year, totalReturn }, key) =>
+															year >= range[0] &&
+															year <= range[1] && (
+																<tr key={key}>
+																	<td>{year}</td>
+																	<td>{totalReturn}</td>
+																	<td>
+																		{(currentYear =>
+																			data
+																				.slice(0)
+																				.reverse()
+																				.filter(({ year }) => year >= range[0] && year <= currentYear)
+																				.reduce(
+																					(cumulativeReturn, { totalReturn }) => cumulativeReturn + +totalReturn,
+																					0
+																				)
+																				.toFixed(2))(year)}
+																	</td>
+																</tr>
+															)
+													)}
 										</tbody>
 									</Table>
 								</div>
