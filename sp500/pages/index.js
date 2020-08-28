@@ -59,7 +59,7 @@ export default function Home() {
 												min={minRange}
 												max={maxRange}
 												value={range}
-												onChange={e => (console.log(range), setRange(e))}
+												onChange={e => setRange(e)}
 											/>
 										</div>
 									</Col>
