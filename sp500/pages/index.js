@@ -44,7 +44,7 @@ export default function Home() {
 						</Col>
 					</Row>
 					<Row>
-						<Col>
+						<Col xs={12} md={8} lg={6}>
 							<div className='mb-4'>
 								<h5 className='text-center'>S&P Total Returns by Year</h5>
 								<Row>
@@ -88,7 +88,14 @@ export default function Home() {
 																<tr key={key}>
 																	<td>{year}</td>
 																	<td>{totalReturn}</td>
-																	<td style={{ display: 'flex', justifyContent: 'space-between' }}>
+																	<td
+																		style={{
+																			display: 'flex',
+																			justifyContent: 'space-between',
+																			minWidth: 180,
+																			overflowX: 'auto',
+																		}}
+																	>
 																		{(currentYear =>
 																			data
 																				.slice(0)
