@@ -88,7 +88,7 @@ export default function Home() {
 																<tr key={key}>
 																	<td>{year}</td>
 																	<td>{totalReturn}</td>
-																	<td>
+																	<td style={{ display: 'flex', justifyContent: 'space-between' }}>
 																		{(currentYear =>
 																			data
 																				.slice(0)
@@ -98,7 +98,10 @@ export default function Home() {
 																					(cumulativeReturn, { totalReturn }) => cumulativeReturn + +totalReturn,
 																					0
 																				)
-																				.toFixed(2))(year)}
+																				.toFixed(2))(year)}{' '}
+																		<span style={{ fontSize: 12, color: 'grey', fontStyle: 'italic' }}>
+																			<span>(</span> {range[0]} <span>to</span> {year} <span>)</span>
+																		</span>
 																	</td>
 																</tr>
 															)
