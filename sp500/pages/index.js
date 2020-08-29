@@ -2,9 +2,9 @@ import { useState } from 'react';
 import Head from 'next/head';
 import { Container, Row, Col, Table } from 'react-bootstrap';
 import NavBar from '../components/NavBar';
+import RangeSlider from '../components/RangeSlider';
 import axios from 'axios';
 import { useQuery } from 'react-query';
-import { Range } from 'rc-slider';
 
 const getSp500Returns = async (key, q) => {
 	const { data } = await axios.get(`api/sp500/returns`);
@@ -12,18 +12,20 @@ const getSp500Returns = async (key, q) => {
 };
 
 export default function Home() {
+	// Query Data
 	const [query, setQuery] = useState('');
 	const { data } = useQuery(['q', query], getSp500Returns);
 
-	const minRange = data && data[data.length - 1].year;
-	const maxRange = data && data[0].year;
+	// RangeSlider
+	const startYear = data && data[data.length - 1].year;
+	const endYear = data && data[0].year;
 	const defaultRange = [1926, 2019];
 	const [range, setRange] = useState(defaultRange);
 
 	return (
 		<div>
 			<Head>
-				<title>S&P 500 Total Returns by Year Since 1926</title>
+				<title>S&P 500 Returns by Year</title>
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 
@@ -53,12 +55,13 @@ export default function Home() {
 									</Col>
 									<Col md={8} xs={12}>
 										<div className='pt-4 pb-4'>
-											<Range
+											<RangeSlider
 												allowCross={false}
 												pushable={1}
-												min={minRange}
-												max={maxRange}
+												min={startYear}
+												max={endYear}
 												value={range}
+												defaultValue={defaultRange}
 												onChange={e => setRange(e)}
 											/>
 										</div>
@@ -93,7 +96,7 @@ export default function Home() {
 																			display: 'flex',
 																			justifyContent: 'space-between',
 																			minWidth: 180,
-																			overflowX: 'auto',
+																			// overflowX: 'auto',
 																		}}
 																	>
 																		{(currentYear =>
