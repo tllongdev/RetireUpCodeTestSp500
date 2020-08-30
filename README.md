@@ -1,7 +1,17 @@
 # RetireUp Code Test
 
-Solution Deployment Link: https://retire-up-code-test-sp500.vercel.app/
+Solution Deployment Link: [S&P 500 Returns By Year](https://retire-up-code-test-sp500.vercel.app/)
 
+This is a JAM Stack solution using Next.js/ React/ API/ Markdown
+
+The API for the S&P 500 returns data is publicly accessible here: [S&P 500 Returns By Year API](https://retire-up-code-test-sp500.vercel.app/api/sp500/returns)
+
+
+
+
+
+Prompt: 
+```
 Code Test
 
 ---
@@ -41,3 +51,4 @@ the table below would show only those 11 rows (2000 - 2010 both inclusive) and t
 You may upload the repository to GitHub under your profile once you are done
 
 ---
+```
