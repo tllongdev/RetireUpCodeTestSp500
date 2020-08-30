@@ -1,4 +1,4 @@
-import sp500Returns from '../../../public/sp500Returns.json';
+import sp500Returns from '../../../data/sp500Returns.json';
 
 export default (req, res) => {
 	res.statusCode = 200;

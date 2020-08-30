@@ -3,22 +3,24 @@ import Head from 'next/head';
 import { Container, Row, Col, Table } from 'react-bootstrap';
 import NavBar from '../components/NavBar';
 import RangeSlider from '../components/RangeSlider';
+import { sortData, cumulativeReturn } from '../utils';
 import axios from 'axios';
 import { useQuery } from 'react-query';
 
 const getSp500Returns = async (key, q) => {
 	const { data } = await axios.get(`api/sp500/returns`);
+	console.log('getSp500Returns has been called');
 	return data;
 };
 
 export default function Home() {
-	// Query Data
+	// option to Query Data
 	const [query, setQuery] = useState('');
 	const { data } = useQuery(['q', query], getSp500Returns);
 
 	// RangeSlider
-	const startYear = data && data[data.length - 1].year;
-	const endYear = data && data[0].year;
+	const minRange = data && sortData(data, 'ascending')[0].year;
+	const maxRange = data && sortData(data, 'descending')[0].year;
 	const defaultRange = [1926, 2019];
 	const [range, setRange] = useState(defaultRange);
 
@@ -48,26 +50,30 @@ export default function Home() {
 					<Row>
 						<Col xs={12} md={8} lg={6}>
 							<div className='mb-4'>
-								<h5 className='text-center'>S&P Total Returns by Year</h5>
+								<h5 className='text-center'>S&P 500 Returns by Year</h5>
 								<Row>
 									<Col>
-										<h6 className='text-center'>Start Year {range[0]}</h6>
+										<h6 className='text-center mt-3 mt-md-0' style={{ fontSize: 14 }}>
+											Start Year {range[0]}
+										</h6>
 									</Col>
 									<Col md={8} xs={12}>
 										<div className='pt-4 pb-4'>
 											<RangeSlider
 												allowCross={false}
 												pushable={1}
-												min={startYear}
-												max={endYear}
+												min={minRange}
+												max={maxRange}
 												value={range}
 												defaultValue={defaultRange}
-												onChange={e => setRange(e)}
+												onChange={value => setRange(value)}
 											/>
 										</div>
 									</Col>
 									<Col>
-										<h6 className='text-center'>End Year {range[1]}</h6>
+										<h6 className='text-center mb-3 mb-md-0' style={{ fontSize: 14 }}>
+											End Year {range[1]}
+										</h6>
 									</Col>
 								</Row>
 								<div>
@@ -81,41 +87,26 @@ export default function Home() {
 										</thead>
 										<tbody>
 											{data &&
-												data
-													.slice(0)
-													.reverse()
-													.map(
-														({ year, totalReturn }, key) =>
-															year >= range[0] &&
-															year <= range[1] && (
-																<tr key={key}>
-																	<td>{year}</td>
-																	<td>{totalReturn}</td>
-																	<td
-																		style={{
-																			display: 'flex',
-																			justifyContent: 'space-between',
-																			minWidth: 180,
-																			// overflowX: 'auto',
-																		}}
-																	>
-																		{(currentYear =>
-																			data
-																				.slice(0)
-																				.reverse()
-																				.filter(({ year }) => year >= range[0] && year <= currentYear)
-																				.reduce(
-																					(cumulativeReturn, { totalReturn }) => cumulativeReturn + +totalReturn,
-																					0
-																				)
-																				.toFixed(2))(year)}{' '}
-																		<span style={{ fontSize: 12, color: 'grey', fontStyle: 'italic' }}>
-																			<span>(</span> {range[0]} <span>to</span> {year} <span>)</span>
-																		</span>
-																	</td>
-																</tr>
-															)
-													)}
+												sortData([...data]).map(
+													({ year, totalReturn }, key) =>
+														year >= range[0] &&
+														year <= range[1] && (
+															<tr key={key}>
+																<td>{year}</td>
+																<td>{totalReturn}</td>
+																<td>
+																	<Row>
+																		<Col>{cumulativeReturn(data, range[0], year)}</Col>
+																		<Col>
+																			<span style={{ fontSize: 11, fontStyle: 'italic' }}>
+																				{range[0]} {' to '} {year}
+																			</span>
+																		</Col>
+																	</Row>
+																</td>
+															</tr>
+														)
+												)}
 										</tbody>
 									</Table>
 								</div>
