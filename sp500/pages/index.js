@@ -9,7 +9,6 @@ import { useQuery } from 'react-query';
 
 const getSp500Returns = async (key, q) => {
 	const { data } = await axios.get(`api/sp500/returns`);
-	console.log('getSp500Returns has been called');
 	return data;
 };
 
@@ -58,7 +57,7 @@ export default function Home() {
 										</h6>
 									</Col>
 									<Col md={8} xs={12}>
-										<div className='pt-4 pb-4'>
+										<div className='pt-4 pb-4 ml-3 mr-3 ml-md-0 mr-md-0'>
 											<RangeSlider
 												allowCross={false}
 												pushable={1}

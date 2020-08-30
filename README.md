@@ -2,7 +2,7 @@
 
 Solution Deployment Link: [S&P 500 Returns By Year](https://retire-up-code-test-sp500.vercel.app/)
 
-This is a JAM Stack solution using Next.js/ React/ API/ Markdown
+This is a JAM Stack solution using Next.js
 
 The API for the S&P 500 returns data is publicly accessible here: [S&P 500 Returns By Year API](https://retire-up-code-test-sp500.vercel.app/api/sp500/returns)
 
