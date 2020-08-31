@@ -1,6 +1,6 @@
 # RetireUp Code Test
 
-Solution Deployment Link: [S&P 500 Returns By Year](https://retire-up-code-test-sp500.vercel.app/)
+View the Deployed App here: [S&P 500 Returns By Year](https://retire-up-code-test-sp500.vercel.app/)
 
 This is a JAM Stack solution using Next.js
 
